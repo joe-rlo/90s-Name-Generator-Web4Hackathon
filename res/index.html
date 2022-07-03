@@ -34,18 +34,13 @@ a{
 pre{
 	color: #ffffff;
 }
-#wm-ipp #wm-ipp-inside {
-  margin: 0 6px;
-  border:5px solid #000;
-  border-top:none;
-  background-color:rgba(255,255,255,0.9);
-  -moz-box-shadow:1px 1px 4px #333;
-  -webkit-box-shadow:1px 1px 4px #333;
-  box-shadow:1px 1px 4px #333;
-  border-radius:0 0 8px 8px;
+button{
+  height:  40px;
+  font-family: "Comic Sans MS", sans-serif;
 }
+
 .container {
-    width: 1000px;
+    width: 100%;
     height: 100%;
     border: 2px solid black;
     box-sizing: border-box;
@@ -56,8 +51,15 @@ h1, h2, h3, p, a, .command{
 span.line{
   color: red;
 }
-.cursor{
-    cursor: url(https://i.imgur.com/RUE567I.gif), auto;
+
+#main{
+  min-height: 90vh;
+}
+section{
+  display: none;
+}
+.open{
+  display: block;
 }
 
 /* @group Blink */
@@ -101,20 +103,25 @@ span.line{
 /* @end */
 
 /*for footer*/
-#main{
-	min-height: 90vh;
+.blinking {
+  margin: auto 0;
+  display:inline-block;
+  font-size: 12px;
+  border: 10px solid #9ae2ff;
+  animation-name: blinking;
+  animation-duration: 1s;
+  animation-iteration-count: 2000;
 }
-section{
-  display: none;
-}
-.open{
-  display: block;
+@keyframes blinking {
+  50% {
+    border-color: #ffcd5f;
+  }
 }
 	</style>
 </head>
-<body class="center bg2 max">
+<body class="center bg2">
 <div id="main">
-<h1 class="tab blink">Welcome to the NEAR future!</h1>
+<h2 class="tab blink">Welcome to the NEAR future!</h2>
 <marquee><pre>
       ___           ___           ___           ___
      /__/\         /  /\         /  /\         /  /\
@@ -131,11 +138,11 @@ section{
 </marquee>
 <main>
 
-<h1>90s Wallet Name Generator<h1>
+<h2>90s Wallet Name Generator<h2>
 <button onclick="generator()" class="btn btn-primary btn-block btn-large">Generate!</button>
 <h2 id="name">Your Totally Rad Name Will Appear Here</h2>
 <section id="start">
-<h2><span>&raquo;Start</span></h2>
+<h3><span>&raquo;Start</span></h3>
 	<p>Once you have generated a name, enter the address of your wallet to see if its available (ie, readylayerone.near).</p>
 </p>
 </section>
@@ -147,7 +154,7 @@ section{
 
 <section id="wallet-notfound">
 <h2><span>&raquo;Woohoo! Wallet Name Is Available! Party On!</span></h2>
-<p>	Go to <a href="https://wallet.near.org" target="_blank">https://wallet.near.org</a> and create your wallet!<br>
+<p>	Go to <a href="https://wallet.near.org" target="_blank">https://wallet.near.org</a> and create your wallet!<br/>
 </p>
 </section>
 </main>
@@ -155,6 +162,8 @@ section{
 <img src="https://i.imgur.com/i6hvJjx.gif">
 <p><---JOIN MY WEBRING ---></p>
 <span><img src="https://i.imgur.com/QkBkUkC.gif"></span>
+<br/>
+<div class='blinking'><a href="https://twitter.com/ready_layer_one" target="_blank">Follow On Twttr</a></div>
 </footer>
 <script>
 	/*!
