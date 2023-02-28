@@ -140,13 +140,13 @@ section{
 
 <h2>90s Wallet Name Generator<h2>
 <button onclick="generator()" class="btn btn-primary btn-block btn-large">Generate!</button>
-<h2 id="name">Your Totally Rad Name Will Appear Here</h2>
+<h2 id="name">[[Your Totally Rad Name Will Appear Here]]</h2>
 <section id="start">
-<h3><span>&raquo;Start</span></h3>
 	<p>Once you have generated a name, enter the address of your wallet to see if its available (ie, readylayerone.near).</p>
 </p>
 </section>
-<span class="command">near:/$<input type="text" placeholder="Type here"></span>
+<span class="command">near:/$<input type="text" id="nameCheck" placeholder="Type here"></span>
+<h3><span>&raquo;Press <button onclick="checkName()">here</button> to check <small>(you can edit it first)</small></small></span></h3>
 <section id="wallet-found">
 <h2><span>&raquo;Doh! Wallet Already Exists :( Sorry, Please Try Again</span></h2>
 </p>
@@ -154,7 +154,7 @@ section{
 
 <section id="wallet-notfound">
 <h2><span>&raquo;Woohoo! Wallet Name Is Available! Party On!</span></h2>
-<p>	Go to <a href="https://wallet.near.org" target="_blank">https://wallet.near.org</a> and create your wallet!<br/>
+<p>	Let's use <a href="https://shard.dog/go" target="_blank">ShardDog</a> and create your wallet for free!<br/>
 </p>
 </section>
 </main>
@@ -163,7 +163,7 @@ section{
 <p><---JOIN MY WEBRING ---></p>
 <span><img src="https://i.imgur.com/QkBkUkC.gif"></span>
 <br/>
-<div class='blinking'><a href="https://twitter.com/ready_layer_one" target="_blank">Follow On Twttr</a></div>
+<div class='blinking'><a href="https://twitter.com/ready_layer_one" target="_blank">Follow Us On Twttr</a></div>
 </footer>
 <script>
 	/*!
@@ -269,12 +269,65 @@ const config = {
 
 });
 
+function checkName(e){
+  const config = {
+  nodeUrl: "https://rpc.mainnet.near.org",
+  deps: {
+    keyStore: new nearApi.keyStores.BrowserLocalStorageKeyStore(),
+  },
+};
+
+
+$('.command').hide();
+var destination = $('input[type="text"]').val().toLowerCase();
+//step based logic
+  // open a connection to the NEAR platform
+  (async function () {
+    window.near = await nearApi.connect(config);
+    try{
+        const account = await near.account($('input[type="text"]').val().toLowerCase());
+        const response = await account.state();
+        console.log(response);
+         destination = "wallet-found";
+         $('section[id="' + destination + '"]').addClass('open').siblings().removeClass('open');
+    } catch(err) {
+       destination = "wallet-notfound";
+      $('section[id="' + destination + '"]').addClass('open').siblings().removeClass('open');
+    }
+  })(window);
+
+// Display section with id == destination and hide all others
+$('section[id="' + destination + '"]').addClass('open').siblings().removeClass('open');
+//if you need to do something right before the winoow opens
+
+// If destination does not match our array of section ids, display error section
+if($.inArray(destination, sectionArray) == -1){
+  $('#error').addClass('open');
+  $('#error').siblings().removeClass('open');
+}
+
+// All sections with class .open init textTyper
+$('.open').textTyper({
+  speed:20,
+  afterAnimation:function(){
+    $('.command').fadeIn();
+    $('input[type="text"]').focus();
+    $('input[type="text"]').val('');
+  }
+});
+
+
+}// end keyup function
+
 var adjective = ["Aiite","Asif","Blazin","DaBomb","Booyah","Bounce","Buggin","Chedda","Cowabunga","Crunk","Farout","Flossin","Fly","Hella","Lame","Peep","Phat","Props","Salty","Scrub","Shady","Sick","Steppin","Sweet","Tight","Triflin","Trippin","Rad","Tubular","Whack","Dillio","Wicked","Word","Wheezingthejuice","Whoop","Yo","Youngin"]
 var object = ["Taco", "Bartman", "Soda", "Bling","Yoink","Whatever","Dawg","Walkman","Tamagotchi","Beeper","CDRom","Discman","BeenieBaby","Troll","GameBoy","Slime","Furbie","RollerBlade","EctoCooler","TrapperKeeper"]
 var list;
 
 function generator() {
- document.getElementById("name").innerHTML = adjective[Math.floor(Math.random() * adjective.length)] + "" + object[Math.floor(Math.random() * object.length)]+".near";
+  document.getElementById("nameCheck").value = "";
+  var genName = adjective[Math.floor(Math.random() * adjective.length)] + "" + object[Math.floor(Math.random() * object.length)]+".near";
+  document.getElementById("name").innerHTML = genName;
+  document.getElementById("nameCheck").value = genName;
 }
 
 </script>
